@@ -7,6 +7,13 @@ Clone the repository to download the project
 >> git clone https://github.com/Shree987/CampusAmigo.git
 >> cd CampusAmigo/Project
 ```
+OR
+Update the repository if already downloaded
+```
+>> cd CampusAmigo
+>> git pull origin master
+>> cd Project
+```
 
 ### Creating Virtual Environment
 Create a virtual envionment for the project (only if it is not present)
