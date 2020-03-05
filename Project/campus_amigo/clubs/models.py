@@ -1,14 +1,13 @@
 from django.db import models
 import datetime
-
-
+from phonenumber_field.modelfields import PhoneNumberField
 # Create your models here.
 class Club(models.Model):
     """Model representing a club."""
-    name = models.CharField(max_length=100,help_text='Name of the club',verbose_name='Name')                
+    name = models.CharField(max_length=100,help_text='Name of the club',verbose_name='Name',unique=True)                
     convener = models.CharField(max_length=100,help_text='Name of the convener',verbose_name='Convener')
-    email = models.EmailField(max_length=1000,help_text='Club email id',verbose_name='Email Id')
-    mobile_no = models.IntegerField(verbose_name='Mobile Number')
+    email = models.EmailField(max_length=1000,help_text='Club email id',verbose_name='Email Id',unique=True)
+    mobile_no = PhoneNumberField(verbose_name='Mobile Number',unique=True)
     logo = models.ImageField(upload_to=None,width_field=None,height_field=None)
     username = models.CharField(max_length=100,verbose_name='Username')
     password = models.CharField(max_length=100,verbose_name='Password')
@@ -22,12 +21,12 @@ class Club(models.Model):
 
 class Student(models.Model):
     """Model representing a member."""
-    name = models.CharField(max_length=100,help_text='Name of the member',verbose_name='Name')
+    name = models.CharField(max_length=100,help_text='Name of the member',verbose_name='Name',unique=True)
     username = models.CharField(max_length=100,verbose_name='Username')
     password = models.CharField(max_length=100,verbose_name='Password')
     branch = models.CharField(max_length=100,verbose_name='Branch')
-    mobile_no = models.IntegerField(verbose_name='Mobile Number')
-    email = models.EmailField(max_length=1000,help_text='Club email id',verbose_name='Email Id')
+    mobile_no = PhoneNumberField(verbose_name='Mobile Number',unique=True)
+    email = models.EmailField(max_length=1000,help_text='Club email id',verbose_name='Email Id',unique=True)
     roll_no = models.CharField(max_length=8,help_text='Branchwise Roll Number',verbose_name='Roll Number')
 
     def __str__(self):
@@ -37,7 +36,7 @@ class Student(models.Model):
 class Event(models.Model):
     """Model representing an event by a club."""
 
-    club = models.ForeignKey('Club',on_delete=models.CASCADE)
+    club_id = models.ForeignKey('Club',on_delete=models.CASCADE)
     event_name = models.CharField(max_length=100,verbose_name='Event Name')
     description = models.CharField(max_length=500,verbose_name='Description',help_text='short description of the event')
     date = models.DateField(verbose_name='Date')
