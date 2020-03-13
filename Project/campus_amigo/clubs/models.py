@@ -4,7 +4,8 @@ from phonenumber_field.modelfields import PhoneNumberField
 # Create your models here.
 class Club(models.Model):
     """Model representing a club."""
-    name = models.CharField(max_length=100,help_text='Name of the club',verbose_name='Name',unique=True)                
+    name = models.CharField(max_length=100,help_text='Name of the club',verbose_name='Name',unique=True)
+    about_us = models.CharField(max_length=1000,verbose_name='About Us',help_text='About the club',default='')              
     convener = models.CharField(max_length=100,help_text='Name of the convener',verbose_name='Convener')
     email = models.EmailField(max_length=1000,help_text='Club email id',verbose_name='Email Id',unique=True)
     mobile_no = PhoneNumberField(verbose_name='Mobile Number',unique=True)
@@ -14,6 +15,7 @@ class Club(models.Model):
     website = models.URLField(verbose_name='Website link')
     technical = models.BooleanField(default=False)
     exclusive = models.BooleanField(default=False)
+
 
     def __str__(self):
         """String to represent the model."""
