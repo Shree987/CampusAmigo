@@ -1,6 +1,7 @@
+from django.core.validators import RegexValidator
 from django.db import models
 import datetime
-from phonenumber_field.modelfields import PhoneNumberField
+
 # Create your models here.
 class Club(models.Model):
     """Model representing a club."""
@@ -8,13 +9,19 @@ class Club(models.Model):
     about_us = models.CharField(max_length=1000,verbose_name='About Us',help_text='About the club',default='')              
     convener = models.CharField(max_length=100,help_text='Name of the convener',verbose_name='Convener')
     email = models.EmailField(max_length=1000,help_text='Club email id',verbose_name='Email Id',unique=True)
-    mobile_no = PhoneNumberField(verbose_name='Mobile Number',unique=True)
+    mobile_no = models.CharField(
+        max_length=10, verbose_name='Mobile Number', unique=True,
+        validators=[
+            RegexValidator(regex='^[0-9]{10}$',),
+        ]
+    )
     logo = models.ImageField(upload_to=None,width_field=None,height_field=None)
     username = models.CharField(max_length=100,verbose_name='Username')
     password = models.CharField(max_length=100,verbose_name='Password')
     website = models.URLField(verbose_name='Website link')
     technical = models.BooleanField(default=False)
     exclusive = models.BooleanField(default=False)
+
 
 
     def __str__(self):
@@ -27,7 +34,12 @@ class Student(models.Model):
     username = models.CharField(max_length=100,verbose_name='Username')
     password = models.CharField(max_length=100,verbose_name='Password')
     branch = models.CharField(max_length=100,verbose_name='Branch')
-    mobile_no = PhoneNumberField(verbose_name='Mobile Number',unique=True)
+    mobile_no = models.CharField(
+        max_length=10, verbose_name='Mobile Number', unique=True,
+        validators=[
+            RegexValidator(regex='^[0-9]{10}$',),
+        ]
+    )
     email = models.EmailField(max_length=1000,help_text='Club email id',verbose_name='Email Id',unique=True)
     roll_no = models.CharField(max_length=8,help_text='Branchwise Roll Number',verbose_name='Roll Number')
 
